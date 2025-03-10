@@ -11,28 +11,34 @@ abstract class SignUpFormFormat extends StatelessWidget {
   final Function(String)? onPasswordConfirmChanged;
   final AuthState? state;
 
-  final String? selectedEmail;
-  final String? selectedName;
+  
+  
   final XFile? selectedPic;
   final SignUpStep? step;
-  final VoidCallback? onSubmit;
-  final VoidCallback? nextPage;
+  
+  
   final VoidCallback? previousPage;
 
   const SignUpFormFormat(
       {super.key,
-      this.onSubmit,
+     
       this.step,
-      this.selectedEmail,
-      this.selectedName,
+      
       this.selectedPic,
       this.onPasswordConfirmChanged,
       this.onEmailChanged,
       this.onPasswordChanged,
-      this.nextPage,
+      
       this.previousPage,
       this.state});
 
+      
+  bool? get emailValid => state is AuthEmailValid
+      ? true
+      : (state is AuthEmailInvalid ? false : null);
+  bool? get passwordValid => state is AuthPasswordValid?true:(state is AuthPasswordInvalid?false:null);
+  bool? get passwordsMatch => state is AuthPasswordsMatch?true:(state is AuthPasswordsDoNotMatch?false:null);
+  bool? get formInProgress => state is AuthSignUpInProgress;
   @override
   Widget build(BuildContext context);
 
@@ -41,11 +47,8 @@ abstract class SignUpFormFormat extends StatelessWidget {
       Function(String)? onEmailChanged,
       Function(String)? onPasswordChanged,
       Function(String)? onPasswordConfirmChanged,
-      String? selectedEmail,
-      String? selectedName,
+     
       XFile? selectedPic,
       SignUpStep? step,
-      VoidCallback? onSubmit,
-      VoidCallback? nextPage,
       VoidCallback? previousPage});
 }

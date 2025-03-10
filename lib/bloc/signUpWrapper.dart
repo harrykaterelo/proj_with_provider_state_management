@@ -28,57 +28,23 @@ class _Signupwrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<SignUpCubit, AuthState>(
         builder: (context, state) {
-          bool? signUpLoading;
-          bool? emailValid = context.read<SignUpCubit>().email != null;
-          bool? passwordValid = context.read<SignUpCubit>().password != null;
-          bool? passwordsMatch = context.read<SignUpCubit>().passwordVerified;
-          String? errorMessage;
-          bool? signUpSuccessful;
-          SignUpStep? authSignUpNextStep =
-              context.read<SignUpCubit>().signUpStep;
-          if (state is AuthLoading) {
-            signUpLoading = true;
-          }
-          if (state is AuthSignUpInitial) {
-            signUpLoading = null;
-            emailValid = null;
-            passwordValid = null;
-            passwordsMatch = null;
-            errorMessage = null;
-            signUpSuccessful = null;
-          }
-          if (state is AuthSignUpSuccess) {
-            signUpSuccessful = true;
-          }
-          if (state is AuthEmailValid) {
-            emailValid = true;
-          }
-          if (state is AuthPasswordValid) {
-            passwordValid = true;
-          }
-          if (state is AuthPasswordsMatch) {
-            passwordsMatch = true;
-          }
-          if (state is AuthError) {
-            errorMessage = state.message;
-            signUpSuccessful = false;
-          }
+          
+          
+          
 
           return widget.copyWith(
               onEmailChanged: context.read<SignUpCubit>().onEmailChanged,
               onPasswordChanged: context.read<SignUpCubit>().onPasswordChanged,
-              formInProgress: signUpLoading,
-              selectedEmail: context.read<SignUpCubit>().email,
+              
+              state: state,
               onPasswordConfirmChanged:
                   context.read<SignUpCubit>().onPasswordsMatch,
-              emailValid: emailValid,
-              passwordValid: passwordValid,
-              passwordsMatch: passwordsMatch,
-              selectedName: null,
+              
+              
               selectedPic: null,
-              step: authSignUpNextStep,
-              onSubmit: context.read<SignUpCubit>().onSignUp,
-              nextPage: context.read<SignUpCubit>().nextStep);
+              
+              
+              );
         },
         listener: (context, state) => {});
   }

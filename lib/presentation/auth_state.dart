@@ -32,10 +32,15 @@ class AuthEmailValid extends AuthState {
 
 class AuthPasswordsMatch extends AuthState {
   
-  
+  final VoidCallback? nextStep;
+  AuthPasswordsMatch(this.nextStep);
 }
 
-class AuthPasswordsDoNotMatch extends AuthState {}
+class AuthPasswordsDoNotMatch extends AuthState {
+  
+  final String? errorMessage;
+  AuthPasswordsDoNotMatch(this.errorMessage);
+}
 
 class AuthPasswordValid extends AuthState {
   final String password;
@@ -44,11 +49,18 @@ class AuthPasswordValid extends AuthState {
 }
 class AuthNameValid extends AuthState{
   final String name;
-  AuthNameValid(this.name);
+  final VoidCallback? nextStep;
+  AuthNameValid(this.name,this.nextStep);
 }
-class AuthEmailInvalid extends AuthState {}
+class AuthEmailInvalid extends AuthState {
+  final String? errorMessage;
+  AuthEmailInvalid(this.errorMessage);
+}
 
-class AuthPasswordInvalid extends AuthState {}
+class AuthPasswordInvalid extends AuthState {
+  final String? errorMessage;
+  AuthPasswordInvalid(this.errorMessage);
+}
 
 class AuthLoginSuccess extends AuthState {}
 
@@ -62,6 +74,6 @@ class AuthSignUpInitial extends AuthState {}
 
 class AuthSignUpStepEmail extends AuthState {}
 class AuthSignUpStepName extends AuthState {}
-class AuthSignUpStepPic extends AuthState {}
+class AuthSignUpStepPic extends AuthState { }
 class AuthSignUpStepPassword extends AuthState {}
 class AuthSignUpStepPasswordConfirm extends AuthState {}

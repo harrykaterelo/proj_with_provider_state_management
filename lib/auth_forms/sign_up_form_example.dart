@@ -19,11 +19,8 @@ class SignUpForm extends SignUpFormFormat {
     super.onEmailChanged,
     super.onPasswordChanged,
     super.onPasswordConfirmChanged,
-    super.onSubmit,
+    
     super.previousPage,
-    super.nextPage,
-    super.selectedEmail,
-    super.selectedName,
     super.selectedPic,
     super.step,
   });

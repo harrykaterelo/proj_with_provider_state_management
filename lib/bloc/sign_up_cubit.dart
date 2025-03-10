@@ -22,10 +22,10 @@ class SignUpCubit extends Cubit<AuthState>
     final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
     if (emailRegex.hasMatch(email)) {
       this.email = email;
-      emit(AuthEmailValid());
+      emit(AuthEmailValid(email,nextStep));
     } else {
       this.email = null;
-      emit(AuthEmailInvalid());
+      emit(AuthEmailInvalid('Email is invalid'));
     }
   }
 
@@ -34,11 +34,11 @@ class SignUpCubit extends Cubit<AuthState>
     if (password.length < 6) {
       this.password = null;
       passwordVerified = false;
-      emit(AuthPasswordInvalid());
+      emit(AuthPasswordInvalid('Password must be at least 6 characters'));
     } else {
       this.password = password;
       passwordVerified = false;
-      emit(AuthPasswordValid());
+      emit(AuthPasswordValid(password,nextStep));
     }
   }
 
@@ -47,10 +47,10 @@ class SignUpCubit extends Cubit<AuthState>
     _secondPassword = secondPassword;
     if (password == _secondPassword) {
       passwordVerified = true;
-      emit(AuthPasswordsMatch());
+      emit(AuthPasswordsMatch(nextStep));
     } else {
       passwordVerified = false;
-      emit(AuthPasswordsDoNotMatch());
+      emit(AuthPasswordsDoNotMatch('Passwords do not match'));
     }
   }
 
@@ -68,19 +68,14 @@ class SignUpCubit extends Cubit<AuthState>
 
   @override
   void nextStep() {
-    if (signUpStep == SignUpStep.email && email != null) {
-      signUpStep = SignUpStep.password;
-      emit(AuthSignUpNextStep());
-    } else if (signUpStep == SignUpStep.password && password != null) {
-      signUpStep = SignUpStep.passwordConfirm;
-      emit(AuthSignUpNextStep());
-    } else if (signUpStep == SignUpStep.passwordConfirm &&
-        passwordVerified == true) {
-      signUpStep = SignUpStep.pic;
-      emit(AuthSignUpNextStep());
-    } else if (signUpStep == SignUpStep.pic) {
-      signUpStep = SignUpStep.finish;
-      emit(AuthSignUpNextStep());
+    if (state is AuthEmailValid){
+      emit(AuthSignUpStepPassword());
+    }
+    if (state is AuthPasswordValid){
+      emit(AuthSignUpStepPasswordConfirm());
+    }
+    if (state is AuthPasswordsMatch){
+      emit(AuthSignUpStepName());
     }
     // TODO: implement nextStep
   }

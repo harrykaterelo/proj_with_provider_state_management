@@ -20,7 +20,7 @@ class SignInCubit extends Cubit<AuthState> implements SignInVariablesAndFunciton
     if (password.length < 6) {
       emit(AuthPasswordInvalid());
     } else {
-      emit(AuthPasswordValid());
+      emit(AuthPasswordValid(passw));
     }
   }
 
